@@ -22,10 +22,10 @@ namespace EventBus.Messages.Extensions
             services.AddMassTransit(x => {
                 x.AddConsumers(Assembly.GetEntryAssembly());
                 x.UsingRabbitMq((ctx, cfg) => {
-                    cfg.Host(configuration["EventBusSettings:HostAddress"], host =>
+                    cfg.Host(new Uri(configuration["EventBusSettings:HostAddress"]), host =>
                     {
-                        host.Username("guest");
-                        host.Password("guest");
+                        host.Username(configuration["EventBusSettings:Username"]);
+                        host.Password(configuration["EventBusSettings:Password"]);
                     });
                     cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(configuration["ServiceName"], false));
                 });

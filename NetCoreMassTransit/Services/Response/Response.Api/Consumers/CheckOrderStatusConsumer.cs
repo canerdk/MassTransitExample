@@ -14,13 +14,15 @@ namespace Response.Api.Consumers
 
         public async Task Consume(ConsumeContext<CheckOrderStatus> context)
         {
-            var order = _orderRepository.GetById(context.Message.OrderId);
+            var order = await _orderRepository.GetById(context.Message.OrderId);
             if (order == null)
                 throw new InvalidOperationException("Order not found");
 
             await context.RespondAsync<OrderStatusResult>(new
             {
-                OrderId = order
+                OrderId = order.Id,
+                TimeStamp = DateTime.Now,
+                StatusText = order.OrderNo + " success"
             });
         }
     }

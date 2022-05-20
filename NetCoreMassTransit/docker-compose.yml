@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  request.api:
+    image: ${DOCKER_REGISTRY-}requestapi
+    build:
+      context: .
+      dockerfile: Services/Request/Request.Api/Dockerfile
+
+  response.api:
+    image: ${DOCKER_REGISTRY-}responseapi
+    build:
+      context: .
+      dockerfile: Services/Response/Response.Api/Dockerfile
